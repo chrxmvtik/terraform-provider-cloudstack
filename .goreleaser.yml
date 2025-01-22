@@ -61,5 +61,3 @@ release:
   github:
       owner: chrxmvtik
       name: terraform-provider-cloudstack
-changelog:
-  skip: true

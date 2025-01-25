@@ -22,6 +22,7 @@ package cloudstack
 import (
 	"fmt"
 	"log"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -235,8 +236,10 @@ func resourceCloudStackLoadBalancerRuleRead(d *schema.ResourceData, meta interfa
 	d.Set("protocol", lb.Protocol)
 
 	// Only set cidr if user specified it to avoid spurious diffs
+
+	delimiters := regexp.MustCompile(`\s*,\s*|\s+`)
 	if _, ok := d.GetOk("cidrlist"); ok {
-		d.Set("cidrlist", strings.Split(lb.Cidrlist, ","))
+		d.Set("cidrlist", delimiters.Split(lb.Cidrlist, -1))
 	}
 
 	// Only set network if user specified it to avoid spurious diffs
